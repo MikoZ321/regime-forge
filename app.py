@@ -1,12 +1,14 @@
 from flask import Flask, render_template, request, session
 from flask_session import Session
 
-from helper.py import login_required
-
+# from helper.py import logged_in
 
 app = Flask(__name__)
 
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app)
+
 @app.route('/')
-@login_required
-def hello_world():
-    return render_template("layout.html")
+def index():
+    return "TODO"
