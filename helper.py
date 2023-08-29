@@ -1,7 +1,13 @@
-from flask import session
+from flask import session, redirect
+from functools import wraps
 
 
-def logged_in():
-    if session.get("user_id") == None:
-        return True
-    return False
+def login_required(f):
+    """Decorate routes to require login"""
+
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if session.get("user_id") == None:
+            return redirect("/login")
+        return f(*args, **kwargs)
+    return decorated_function
